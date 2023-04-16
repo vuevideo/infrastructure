@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: server-deployment
+  namespace: vuevideo
+  labels:
+    app: vuevideo
+    component: server
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vuevideo
+      component: server
+
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: vuevideo
+        component: server
+
+    spec:
+      containers:
+        - name: server
+          image: docker.io/vuevideo/server:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "64m"
+            limits:
+              memory: "64Mi"
+              cpu: "128m"
