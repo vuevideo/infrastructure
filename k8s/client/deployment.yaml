@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: client-deployment
+  namespace: vuevideo
+  labels:
+    app: vuevideo
+    component: client
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vuevideo
+      component: client
+
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: vuevideo
+        component: client
+
+    spec:
+      containers:
+        - name: client
+          image: docker.io/vuevideo/client:latest
+          ports:
+            - containerPort: 3001
+          env:
+            - name: NUXT_PUBLIC_PROXY_URL
+              value: "http://server-service.vuevideo.svc.cluster.local"
+          resources:
+            requests:
+              memory: "32Mi"
+              cpu: "64m"
+            limits:
+              memory: "64Mi"
+              cpu: "128m"
