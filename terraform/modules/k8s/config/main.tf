@@ -31,9 +31,9 @@ resource "google_container_cluster" "cluster" {
   remove_default_node_pool = true
   initial_node_count       = 1
 
-  node_config {
-    disk_size_gb = 10
-  }
+  # node_config {
+  #   disk_size_gb = 10
+  # }
 }
 
 resource "google_container_node_pool" "nodes" {
