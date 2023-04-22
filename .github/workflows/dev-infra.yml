@@ -5,6 +5,7 @@ on:
     branches:
       - feature/*/*
       - master
+  workflow_dispatch:
 
 jobs:
   terraform_apply:
