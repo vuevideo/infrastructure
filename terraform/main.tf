@@ -14,7 +14,7 @@ module "k8s_cluster_network" {
 module "k8s_cluster" {
   source       = "./modules/k8s/config"
   cluster_name = var.cluster_name
-  location     = var.zone
+  location     = var.release ? var.region : var.zone
   network_name = module.k8s_cluster_network.network_name
   subnet_name  = module.k8s_cluster_network.subnetwork_name
 

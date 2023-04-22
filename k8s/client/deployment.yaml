@@ -38,8 +38,8 @@ spec:
               value: "http://server-service.vuevideo.svc.cluster.local"
           resources:
             requests:
-              memory: "32Mi"
-              cpu: "64m"
-            limits:
               memory: "64Mi"
-              cpu: "128m"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "75m"
