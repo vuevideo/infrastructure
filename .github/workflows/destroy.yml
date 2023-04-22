@@ -1,0 +1,54 @@
+name: Destroy Resources in a given Environment.
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to destroy
+        options:
+          - "dev"
+          - "release"
+
+jobs:
+  terraform_apply:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "1.3.3"
+
+      - name: Authenticating with GCP
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+
+      - name: Set up Cloud SDK
+        uses: "google-github-actions/setup-gcloud@v1"
+        with:
+          install_components: "gsutil"
+
+      - name: Copy required TFVars File from GCS Bucket
+        run: gsutil cp "${{ secrets.TFVARS_GCS }}" terraform.tfvars
+
+      - name: Terraform Initialization
+        id: init
+        run: terraform init --backend-config="bucket=${{ secrets.BACKEND_BUCKET }}" --backend-config="prefix=${{ secrets.BACKEND_PREFIX }}"
+
+      - name: Terraform Planning
+        id: plan
+        run: terraform plan
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply
+        run: terraform destroy -auto-approve
