@@ -30,9 +30,16 @@ variable "k8s_roles" {
   type        = list(string)
 }
 
+# K8s Network Configuration
 variable "k8s_network_name" {
   description = "VPC Network Name"
   type        = string
+}
+
+# K8s Cluster Configuration
+variable "release" {
+  description = "Release boolean"
+  type        = bool
 }
 
 variable "cluster_name" {
