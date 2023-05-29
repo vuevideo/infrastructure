@@ -24,7 +24,7 @@ module "k8s_cluster" {
 
   pool_name                  = var.pool_name
   pool_count                 = var.pool_count
-  pool_location              = var.zone
+  pool_location              = var.release ? var.region : var.zone
   pool_machine_preemptible   = var.pool_machine_preemptible
   pool_machine_type          = var.pool_machine_type
   pool_service_account_email = module.k8s_service_account.service_account_email
