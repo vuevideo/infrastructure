@@ -48,6 +48,8 @@ resource "google_container_node_pool" "nodes" {
     preemptible  = var.pool_machine_preemptible
     machine_type = var.pool_machine_type
 
+    disk_size_gb = 50
+
     service_account = var.pool_service_account_email
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
