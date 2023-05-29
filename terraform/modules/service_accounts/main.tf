@@ -3,9 +3,9 @@ resource "google_service_account" "service_account" {
   display_name = var.display_name
 }
 
-resource "google_service_account_iam_member" "roles" {
-  for_each           = toset(var.roles)
-  service_account_id = google_service_account.service_account.id
-  role               = each.key
-  member             = "serviceAccount:${google_service_account.service_account.email}"
+resource "google_project_iam_binding" "roles" {
+  for_each = toset(var.roles)
+  role     = each.key
+  members  = ["serviceAccount:${google_service_account.service_account.email}"]
+  project  = var.project_id
 }

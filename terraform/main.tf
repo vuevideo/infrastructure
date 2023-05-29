@@ -3,6 +3,7 @@ module "k8s_service_account" {
   account_id   = var.k8s_account_id
   display_name = var.k8s_display_name
   roles        = var.k8s_roles
+  project_id   = var.project_id
 }
 
 module "k8s_cluster_network" {
@@ -28,4 +29,18 @@ module "k8s_cluster" {
   pool_machine_preemptible   = var.pool_machine_preemptible
   pool_machine_type          = var.pool_machine_type
   pool_service_account_email = module.k8s_service_account.service_account_email
+}
+
+module "cloud_sql" {
+  source                 = "./modules/sql"
+  database_availability  = var.database_availability
+  database_instance_name = var.database_instance_name
+  database_name          = var.database_name
+  database_network_link  = module.k8s_cluster_network.network_self_link
+  database_password      = var.database_password
+  database_tier          = var.database_tier
+  database_user          = var.database_user
+  database_version       = var.database_version
+
+  depends_on = [module.k8s_cluster]
 }
