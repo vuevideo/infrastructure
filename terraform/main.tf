@@ -15,9 +15,11 @@ module "k8s_cluster_network" {
 module "k8s_cluster" {
   source       = "./modules/k8s/config"
   cluster_name = var.cluster_name
-  location     = var.release ? var.region : var.zone
+  location     = var.region
   network_name = module.k8s_cluster_network.network_name
   subnet_name  = module.k8s_cluster_network.subnetwork_name
+
+  node_locations = var.k8s_node_locations
 
   control_plane_ipv4_cidr_block = module.k8s_cluster_network.cluster_control_plane_ip_cidr_range
   pods_ipv4_cidr_block          = module.k8s_cluster_network.cluster_pods_ip_cidr_range
@@ -25,7 +27,7 @@ module "k8s_cluster" {
 
   pool_name                  = var.pool_name
   pool_count                 = var.pool_count
-  pool_location              = var.release ? var.region : var.zone
+  pool_location              = var.region
   pool_machine_preemptible   = var.pool_machine_preemptible
   pool_machine_type          = var.pool_machine_type
   pool_service_account_email = module.k8s_service_account.service_account_email

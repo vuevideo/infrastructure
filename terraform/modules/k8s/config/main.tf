@@ -2,6 +2,8 @@ resource "google_container_cluster" "cluster" {
   name     = var.cluster_name
   location = var.location
 
+  node_locations = var.node_locations
+
   network    = var.network_name
   subnetwork = var.subnet_name
 
@@ -30,10 +32,6 @@ resource "google_container_cluster" "cluster" {
 
   remove_default_node_pool = true
   initial_node_count       = 1
-
-  # node_config {
-  #   disk_size_gb = 10
-  # }
 }
 
 resource "google_container_node_pool" "nodes" {
@@ -43,6 +41,8 @@ resource "google_container_node_pool" "nodes" {
   node_count = var.pool_count
 
   max_pods_per_node = 100
+
+  node_locations = var.node_locations
 
   node_config {
     preemptible  = var.pool_machine_preemptible

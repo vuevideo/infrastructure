@@ -8,6 +8,11 @@ variable "location" {
   type        = string
 }
 
+variable "node_locations" {
+  description = "K8s Nodes Location"
+  type        = set(string)
+}
+
 variable "network_name" {
   description = "K8s VPC Name"
   type        = string

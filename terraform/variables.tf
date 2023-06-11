@@ -36,10 +36,9 @@ variable "k8s_network_name" {
   type        = string
 }
 
-# K8s Cluster Configuration
-variable "release" {
-  description = "Release boolean"
-  type        = bool
+variable "k8s_node_locations" {
+  description = "K8s Nodes Location"
+  type        = set(string)
 }
 
 variable "cluster_name" {
