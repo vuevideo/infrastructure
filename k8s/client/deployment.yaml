@@ -10,7 +10,7 @@ metadata:
     component: client
 
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: vuevideo
@@ -19,7 +19,7 @@ spec:
   strategy:
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 1
+      maxUnavailable: 0
 
   template:
     metadata:
@@ -38,8 +38,8 @@ spec:
               value: "http://server-service.vuevideo.svc.cluster.local"
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "50m"
+              memory: "1Gi"
+              cpu: "1"
             limits:
-              memory: "128Mi"
-              cpu: "75m"
+              memory: "2Gi"
+              cpu: "1"
