@@ -36,6 +36,9 @@ spec:
           env:
             - name: NUXT_PUBLIC_PROXY_URL
               value: "http://server-service.vuevideo.svc.cluster.local"
+          envFrom:
+            - secretRef:
+                name: firebase-config
           resources:
             requests:
               memory: "1Gi"
