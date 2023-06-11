@@ -19,7 +19,7 @@ spec:
   strategy:
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 1
+      maxUnavailable: 0
 
   template:
     metadata:
@@ -35,8 +35,8 @@ spec:
             - containerPort: 3000
           resources:
             requests:
-              memory: "128Mi"
-              cpu: "75m"
+              memory: "1Gi"
+              cpu: "1"
             limits:
-              memory: "256Mi"
-              cpu: "75m"
+              memory: "2Gi"
+              cpu: "1"
