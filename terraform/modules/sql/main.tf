@@ -21,6 +21,8 @@ resource "google_sql_database_instance" "primary_instance" {
   name             = var.database_instance_name
   database_version = var.database_version
 
+  deletion_protection = false
+
   settings {
     tier              = var.database_tier
     availability_type = var.database_availability
