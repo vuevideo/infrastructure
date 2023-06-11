@@ -33,6 +33,10 @@ spec:
           image: docker.io/vuevideo/server:latest
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - name: firebase-sa
+              mountPath: /secrets/
+              readOnly: true
           resources:
             requests:
               memory: "1Gi"
@@ -40,3 +44,8 @@ spec:
             limits:
               memory: "2Gi"
               cpu: "1"
+
+      volumes:
+        - name: firebase-sa
+          secret:
+            secretName: firebase-sa

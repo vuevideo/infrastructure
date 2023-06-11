@@ -29,5 +29,6 @@ override.tf.json
 # example: *tfplan*
 
 # Misc.
-/keys/*
+**/keys/**
+**/secrets/**
 terraform/*.tfvars
