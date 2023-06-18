@@ -12,6 +12,7 @@ on:
 
 jobs:
   kubectl_secrets:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: dev
     defaults:
@@ -35,9 +36,15 @@ jobs:
       - name: Saving Secrets Locally
         run: |
           mkdir secrets
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' >> secrets/service-account.json
 
-          echo "${{ secrets.FIREBASE_FRONTEND_ENV }}" >> secrets/frontend.env
+          mkdir secrets/sql
+          mkdir secrets/firebase
+          mkdir secrets/frontend
+
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' >> secrets/firebase/service-account.json
+          echo '${{ secrets.SQL_SA_ACCOUNT }}' >> secrets/sql/service-account.json
+
+          echo "${{ secrets.FIREBASE_FRONTEND_ENV }}" >> secrets/frontend/frontend.env
 
       - name: Creating namespace
         run: |
@@ -45,9 +52,14 @@ jobs:
 
       - name: Applying secrets in K8s
         run: |
-          kubectl create secret generic firebase-sa --from-file secrets/service-account.json --namespace vuevideo
+          kubectl delete secret firebase-sa --ignore-not-found
+          kubectl create secret generic firebase-sa --from-file secrets/firebase/service-account.json --namespace vuevideo
 
-          kubectl create secret generic firebase-config --from-env-file secrets/frontend.env --namespace vuevideo
+          kubectl delete secret sql-sa --ignore-not-found
+          kubectl create secret generic sql-sa --from-file secrets/sql/service-account.json --namespace vuevideo
+
+          kubectl delete secret firebase-config --ignore-not-found
+          kubectl create secret generic firebase-config --from-env-file secrets/frontend/frontend.env --namespace vuevideo
 
   kubectl_apply:
     needs: kubectl_secrets
