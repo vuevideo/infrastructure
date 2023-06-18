@@ -64,9 +64,9 @@ variable "pool_machine_type" {
   type        = string
 }
 
-variable "pool_service_account_email" {
-  description = "Node Pool Service Account Email"
-  type        = string
-}
+# variable "pool_service_account_email" {
+#   description = "Node Pool Service Account Email"
+#   type        = string
+# }
 
 
