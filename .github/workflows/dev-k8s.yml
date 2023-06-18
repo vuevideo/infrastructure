@@ -52,13 +52,13 @@ jobs:
 
       - name: Applying secrets in K8s
         run: |
-          kubectl delete secret firebase-sa --ignore-not-found
+          kubectl delete secret firebase-sa --ignore-not-found --namespace vuevideo
           kubectl create secret generic firebase-sa --from-file secrets/firebase/service-account.json --namespace vuevideo
 
-          kubectl delete secret sql-sa --ignore-not-found
+          kubectl delete secret sql-sa --ignore-not-found --namespace vuevideo
           kubectl create secret generic sql-sa --from-file secrets/sql/service-account.json --namespace vuevideo
 
-          kubectl delete secret firebase-config --ignore-not-found
+          kubectl delete secret firebase-config --ignore-not-found --namespace vuevideo
           kubectl create secret generic firebase-config --from-env-file secrets/frontend/frontend.env --namespace vuevideo
 
   kubectl_apply:
