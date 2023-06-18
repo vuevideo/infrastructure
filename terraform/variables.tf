@@ -15,20 +15,20 @@ variable "zone" {
 }
 
 # K8s Service Account Configuration
-# variable "k8s_account_id" {
-#   description = "ID for the K8s service account"
-#   type        = string
-# }
+variable "k8s_account_id" {
+  description = "ID for the K8s service account"
+  type        = string
+}
 
-# variable "k8s_display_name" {
-#   description = "Display name for the K8s service account"
-#   type        = string
-# }
+variable "k8s_display_name" {
+  description = "Display name for the K8s service account"
+  type        = string
+}
 
-# variable "k8s_roles" {
-#   description = "Array of roles to grant to K8s."
-#   type        = list(string)
-# }
+variable "k8s_roles" {
+  description = "Array of roles to grant to K8s."
+  type        = list(string)
+}
 
 # K8s Network Configuration
 variable "k8s_network_name" {

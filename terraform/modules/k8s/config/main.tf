@@ -50,10 +50,10 @@ resource "google_container_node_pool" "nodes" {
 
     disk_size_gb = 50
 
-    # service_account = var.pool_service_account_email
-    # oauth_scopes = [
-    #   "https://www.googleapis.com/auth/cloud-platform"
-    # ]
+    service_account = var.pool_service_account_email
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
 
     shielded_instance_config {
       enable_secure_boot          = true
