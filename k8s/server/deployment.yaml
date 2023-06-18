@@ -45,7 +45,31 @@ spec:
               memory: "2Gi"
               cpu: "1"
 
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.0
+          args:
+            - "--structured-logs"
+            - "--port=5432"
+            - "<INSTANCE_CONNECTION_NAME>"
+            - "--credentials-file=/secrets/service_account.json"
+          securityContext:
+            runAsNonRoot: true
+          volumeMounts:
+            - name: sql-sa
+              mountPath: /secrets/
+              readOnly: true
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+
       volumes:
         - name: firebase-sa
           secret:
             secretName: firebase-sa
+        - name: sql-sa
+          secret:
+            secretName: sql-sa
