@@ -57,6 +57,9 @@ jobs:
     defaults:
       run:
         working-directory: k8s
+    env:
+      CLIENT_VERSION: ${{ vars.CLIENT_VERSION }}
+      SERVER_VERSION: ${{ vars.SERVER_VERSION }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -71,6 +74,12 @@ jobs:
         with:
           cluster_name: '${{ secrets.CLUSTER_NAME }}'
           location: '${{ secrets.CLUSTER_LOCATION }}'
+
+      - name: Setting Client and Server Versions
+        run: |
+          sed -i "s/CLIENT_VERSION/$CLIENT_VERSION/g" ./client/deployment.yaml
+
+          sed -i "s/SERVER_VERSION/$SERVER_VERSION/g" ./server/deployment.yaml
 
       - name: Creating namespace
         run: |

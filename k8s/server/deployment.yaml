@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: docker.io/vuevideo/server:latest
+          image: docker.io/vuevideo/server:SERVER_VERSION
           ports:
             - containerPort: 3000
           volumeMounts:
