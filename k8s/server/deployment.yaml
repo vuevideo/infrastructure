@@ -50,8 +50,8 @@ spec:
           args:
             - "--structured-logs"
             - "--port=5432"
-            - "<INSTANCE_CONNECTION_NAME>"
-            - "--credentials-file=/secrets/service_account.json"
+            - "vuevideo-dev:asia-south1:vuevideo-database-instance"
+            - "--credentials-file=/secrets/service-account.json"
           securityContext:
             runAsNonRoot: true
           volumeMounts:
