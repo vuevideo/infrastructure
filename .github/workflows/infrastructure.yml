@@ -56,3 +56,14 @@ jobs:
       infrastructure_path: terraform/infrastructure/apis
     secrets:
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+  firebase-project:
+    name: Create Firebase Project
+    needs: [environment, jobs_to_trigger]
+    if: ${{ contains(fromJSON(needs.jobs_to_trigger.outputs.jobs), 'firebase-project') }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ needs.environment.outputs.environment }}
+      infrastructure_path: terraform/infrastructure/firebase-project
+    secrets:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}

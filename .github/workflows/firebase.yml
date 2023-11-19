@@ -1,0 +1,21 @@
+name: On Demand Firebase Project Creation
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        default: dev
+        description: Environment to create a new firebase project in
+        required: true
+        type: environment
+
+jobs:
+  firebase-project:
+    name: Create Firebase Project
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: terraform/infrastructure/firebase-project
+    secrets:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
