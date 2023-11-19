@@ -7,6 +7,7 @@ resource "google_project_service" "default" {
     "cloudresourcemanager.googleapis.com",
     "firebase.googleapis.com",
     "serviceusage.googleapis.com",
+    "firebasestorage.googleapis.com",
   ])
   service            = each.key
   disable_on_destroy = false
