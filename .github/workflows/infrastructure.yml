@@ -36,10 +36,14 @@ jobs:
     outputs:
       jobs: ${{ steps.changes.outputs.changes }}
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
       - id: changes
         name: Checking what files have changed
         uses: dorny/paths-filter@v2
         with:
+          base: ${{ github.ref }}
           filters: .github/paths.yml
 
   example:
