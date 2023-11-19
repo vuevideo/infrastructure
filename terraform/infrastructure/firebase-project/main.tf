@@ -25,8 +25,9 @@ resource "google_firebase_project" "firebase_project" {
 
 # Buckets for storing profile pictures in.
 resource "random_string" "random" {
-  length  = 16
+  length  = 5
   special = false
+  upper   = false
 }
 
 resource "google_storage_bucket" "profile-pictures" {
