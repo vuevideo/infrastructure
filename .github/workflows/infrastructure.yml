@@ -46,7 +46,7 @@ jobs:
           filters: .github/paths.yml
 
   example:
-    needs: [jobs_to_trigger]
+    needs: [jobs_to_trigger, environment]
     runs-on: ubuntu-latest
     steps:
       - run: echo "${{ contains(fromJSON(needs.jobs_to_trigger.outputs.jobs), 'apis') }}"
