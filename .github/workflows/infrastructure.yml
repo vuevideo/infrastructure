@@ -1,0 +1,52 @@
+name: Deploy Resources using Terraform
+
+on:
+  push:
+    branches:
+      - feature/*/*
+      - release/*
+  workflow_dispatch:
+
+jobs:
+  environment:
+    name: Check for environment using branch name
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .github/scripts
+    outputs:
+      environment: ${{ steps.environment.outputs.deploy_environment }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - id: environment
+        name: Check for environment using branch name
+        run: |
+          chmod +x environment.sh
+          deploy_environment=$(bash environment.sh ${{ github.ref_name }})
+
+          echo "Environment: $deploy_environment"
+
+          echo "deploy_environment=$deploy_environment" >> $GITHUB_OUTPUT
+
+  jobs_to_trigger:
+    name: Checking what files have changed
+    runs-on: ubuntu-latest
+    outputs:
+      jobs: ${{ steps.changes.outputs.changes }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - id: changes
+        name: Checking what files have changed
+        uses: dorny/paths-filter@v2
+        with:
+          filters: .github/paths.yml
+
+  example:
+    needs: [jobs_to_trigger]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ contains(fromJSON(needs.jobs_to_trigger.outputs.jobs), 'apis') }}"

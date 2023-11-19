@@ -1,0 +1,2 @@
+apis:
+  - terraform/infrastructure/apis/**
