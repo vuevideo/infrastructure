@@ -8,6 +8,7 @@ resource "google_project_service" "default" {
     "firebase.googleapis.com",
     "serviceusage.googleapis.com",
     "firebasestorage.googleapis.com",
+    "identitytoolkit.googleapis.com"
   ])
   service            = each.key
   disable_on_destroy = false
@@ -44,19 +45,19 @@ resource "google_firebase_storage_bucket" "default" {
   bucket_id = google_storage_bucket.profile-pictures.id
 }
 
-# # Firebase Authentication
-# resource "google_identity_platform_config" "default" {
-#   project                    = google_firebase_project.firebase_project.project
-#   autodelete_anonymous_users = true
-#   sign_in {
-#     email {
-#       enabled           = true
-#       password_required = false
-#     }
-#   }
-#   authorized_domains = [
-#     "localhost",
-#     "${google_firebase_project.firebase_project.project}.firebaseapp.com",
-#     "${google_firebase_project.firebase_project.project}.web.app",
-#   ]
-# }
+# Firebase Authentication
+resource "google_identity_platform_config" "default" {
+  project                    = google_firebase_project.firebase_project.project
+  autodelete_anonymous_users = true
+  sign_in {
+    email {
+      enabled           = true
+      password_required = false
+    }
+  }
+  authorized_domains = [
+    "localhost",
+    "${google_firebase_project.firebase_project.project}.firebaseapp.com",
+    "${google_firebase_project.firebase_project.project}.web.app",
+  ]
+}
