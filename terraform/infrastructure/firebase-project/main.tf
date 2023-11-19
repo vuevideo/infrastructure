@@ -35,7 +35,7 @@ resource "random_string" "random" {
 resource "google_storage_bucket" "profile-pictures" {
   provider                    = google-beta
   name                        = "vuevideo-profile-pictures-${random_string.random.result}"
-  location                    = "ASIA"
+  location                    = "asia-south1"
   uniform_bucket_level_access = true
 }
 
