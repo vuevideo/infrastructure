@@ -14,6 +14,11 @@ on:
         required: true
         type: string
 
+    secrets:
+      GOOGLE_CREDENTIALS:
+        description: Google Credentials to authenticate with GCP
+        required: true
+
 jobs:
   tf_apply:
     runs-on: ubuntu-latest

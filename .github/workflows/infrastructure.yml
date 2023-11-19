@@ -46,8 +46,13 @@ jobs:
           base: ${{ github.ref }}
           filters: .github/paths.yml
 
-  example:
-    needs: [jobs_to_trigger, environment]
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "${{ contains(fromJSON(needs.jobs_to_trigger.outputs.jobs), 'apis') }}"
+  apis:
+    name: APIs to enable
+    needs: [environment, jobs_to_trigger]
+    if: ${{ contains(fromJSON(needs.jobs_to_trigger.outputs.jobs), 'apis') }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ needs.environment.outputs.environment }}
+      infrastructure_path: terraform/infrastructure/apis
+    secrets:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
