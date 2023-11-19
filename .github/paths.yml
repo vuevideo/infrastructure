@@ -1,2 +1,5 @@
 apis:
   - terraform/infrastructure/apis/**
+
+firebase-project:
+  - terraform/infrastructure/firebase-project/**
