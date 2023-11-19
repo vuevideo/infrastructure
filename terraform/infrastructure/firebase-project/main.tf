@@ -23,19 +23,19 @@ resource "google_firebase_project" "firebase_project" {
   ]
 }
 
-# # Buckets for storing profile pictures in.
-# resource "google_storage_bucket" "profile-pictures" {
-#   provider                    = google-beta
-#   name                        = "profile-pictures"
-#   location                    = "ASIA"
-#   uniform_bucket_level_access = true
-# }
+# Buckets for storing profile pictures in.
+resource "google_storage_bucket" "profile-pictures" {
+  provider                    = google-beta
+  name                        = "profile-pictures"
+  location                    = "ASIA"
+  uniform_bucket_level_access = true
+}
 
-# resource "google_firebase_storage_bucket" "default" {
-#   provider  = google-beta
-#   project   = google_firebase_project.firebase_project.project
-#   bucket_id = google_storage_bucket.profile-pictures.id
-# }
+resource "google_firebase_storage_bucket" "default" {
+  provider  = google-beta
+  project   = google_firebase_project.firebase_project.project
+  bucket_id = google_storage_bucket.profile-pictures.id
+}
 
 # # Firebase Authentication
 # resource "google_identity_platform_config" "default" {

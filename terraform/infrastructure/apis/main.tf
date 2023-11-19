@@ -12,4 +12,5 @@ resource "google_project_service" "enable_google_apis" {
 
   disable_dependent_services = true
   depends_on                 = [google_project_service.resource_manager]
+  disable_on_destroy         = false
 }
