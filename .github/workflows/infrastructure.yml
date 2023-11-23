@@ -15,7 +15,7 @@ jobs:
   apis:
     name: APIs to enable
     needs: [prerequisites]
-    if: ${{ contains(fromJSON(needs.prerequisites.outputs.jobs), 'apis') }}
+    if: ${{ contains(fromJSON(needs.prerequisites.outputs.jobs), 'apis') && always() }}
     uses: ./.github/workflows/tf.reusable.yml
     with:
       environment: ${{ needs.prerequisites.outputs.environment }}
@@ -24,7 +24,7 @@ jobs:
   firebase-project:
     name: Create Firebase Project
     needs: [prerequisites, apis]
-    if: ${{ contains(fromJSON(needs.prerequisites.outputs.jobs), 'firebase-project') }}
+    if: ${{ contains(fromJSON(needs.prerequisites.outputs.jobs), 'firebase-project') && always() }}
     uses: ./.github/workflows/tf.reusable.yml
     with:
       environment: ${{ needs.prerequisites.outputs.environment }}
@@ -33,7 +33,7 @@ jobs:
   k8s-network:
     name: Kubernetes Network Creation
     needs: [prerequisites, firebase-project]
-    if: ${{ contains(fromJSON(needs.prerequisites.outputs.jobs), 'k8s-network') }}
+    if: ${{ contains(fromJSON(needs.prerequisites.outputs.jobs), 'k8s-network') && always() }}
     uses: ./.github/workflows/tf.reusable.yml
     with:
       environment: ${{ needs.prerequisites.outputs.environment }}
