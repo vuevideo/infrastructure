@@ -15,6 +15,11 @@ variable "zone" {
 }
 
 # Cloud SQL Configuration
+variable "database_network_name" {
+  description = "Database Network Name"
+  type        = string
+}
+
 variable "database_name" {
   type        = string
   description = "Cloud SQL Database Name"

@@ -14,3 +14,7 @@ k8s-cluster-and-node-pool:
   - terraform/infrastructure/k8s/cluster/**
   - terraform/modules/k8s/cluster/**
   - terraform/modules/k8s/node-pool/**
+
+sql:
+  - terraform/infrastructure/sql/**
+  - terraform/modules/sql/**
