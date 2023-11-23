@@ -11,5 +11,6 @@ terraform {
     }
   }
   backend "gcs" {
+    prefix = "sql"
   }
 }
