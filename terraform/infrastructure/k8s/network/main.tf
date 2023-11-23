@@ -15,6 +15,6 @@ module "k8s_nat" {
   source      = "../../../modules/nat"
   region      = var.region
   zone        = var.zone
-  vpc_name    = module.k8s_cluster_network.network_self_link
-  subnet_name = module.k8s_cluster_subnet.subnetwork_link
+  vpc_name    = module.k8s_cluster_network.network_name
+  subnet_name = module.k8s_cluster_subnet.subnetwork_name
 }
