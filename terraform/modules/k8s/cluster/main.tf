@@ -30,39 +30,10 @@ resource "google_container_cluster" "cluster" {
   #   }
   # }
 
+  workload_identity_config {
+    workload_pool = "${var.project_id}.svc.id.goog"
+  }
+
   remove_default_node_pool = true
   initial_node_count       = 1
-}
-
-resource "google_container_node_pool" "nodes" {
-  name       = var.pool_name
-  location   = var.pool_location
-  cluster    = google_container_cluster.cluster.name
-  node_count = var.pool_count
-
-  max_pods_per_node = 100
-
-  node_locations = var.node_locations
-
-  node_config {
-    preemptible  = var.pool_machine_preemptible
-    machine_type = var.pool_machine_type
-
-    disk_size_gb = 50
-
-    service_account = var.pool_service_account_email
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/cloud-platform"
-    ]
-
-    shielded_instance_config {
-      enable_secure_boot          = true
-      enable_integrity_monitoring = true
-    }
-
-    metadata = {
-      google-compute-enable-virtio-rng = "true"
-      disable-legacy-endpoints         = "true"
-    }
-  }
 }

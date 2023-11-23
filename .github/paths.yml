@@ -9,3 +9,8 @@ k8s-network:
   - terraform/modules/network/**
   - terraform/modules/nat/**
   - terraform/modules/subnet/**
+
+k8s-cluster-and-node-pool:
+  - terraform/infrastructure/k8s/cluster/**
+  - terraform/modules/k8s/cluster/**
+  - terraform/modules/k8s/node-pool/**
