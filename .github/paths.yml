@@ -6,3 +6,6 @@ firebase-project:
 
 k8s-network:
   - terraform/infrastructure/k8s/network/**
+  - terraform/modules/network/**
+  - terraform/modules/nat/**
+  - terraform/modules/subnet/**

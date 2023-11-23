@@ -8,7 +8,7 @@ resource "google_compute_route" "egress_internet" {
 resource "google_compute_router" "router" {
   name    = "${var.vpc_name}-router"
   region  = var.region
-  network = var.zone
+  network = var.vpc_name
 }
 
 resource "google_compute_router_nat" "nat_router" {
