@@ -3,3 +3,6 @@ apis:
 
 firebase-project:
   - terraform/infrastructure/firebase-project/**
+
+k8s-network:
+  - terraform/infrastructure/k8s/network/**

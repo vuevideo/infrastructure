@@ -23,9 +23,18 @@ jobs:
 
   firebase-project:
     name: Create Firebase Project
-    needs: [prerequisites]
+    needs: [prerequisites, apis]
     if: ${{ contains(fromJSON(needs.prerequisites.outputs.jobs), 'firebase-project') }}
     uses: ./.github/workflows/tf.reusable.yml
     with:
       environment: ${{ needs.prerequisites.outputs.environment }}
       infrastructure_path: terraform/infrastructure/firebase-project
+
+  k8s-network:
+    name: Kubernetes Network Creation
+    needs: [prerequisites, firebase-project]
+    if: ${{ contains(fromJSON(needs.prerequisites.outputs.jobs), 'k8s-network') }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ needs.prerequisites.outputs.environment }}
+      infrastructure_path: terraform/infrastructure/k8s/network

@@ -1,17 +1,3 @@
-module "k8s_service_account" {
-  source       = "./modules/service_accounts"
-  account_id   = var.k8s_account_id
-  display_name = var.k8s_display_name
-  roles        = var.k8s_roles
-  project_id   = var.project_id
-}
-
-module "k8s_cluster_network" {
-  source        = "./modules/k8s/network"
-  network_name  = var.k8s_network_name
-  subnet_region = var.region
-}
-
 module "k8s_cluster" {
   source       = "./modules/k8s/config"
   cluster_name = var.cluster_name
