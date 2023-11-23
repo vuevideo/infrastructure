@@ -1,30 +1,22 @@
-name: Deploy resources using Terraform
+name: Deploy Workload Identity Pool and Provider
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       environment:
         default: dev
-        description: Environment to deploy in.
         required: true
-        type: string
-
-      infrastructure_path:
-        description: Path of infrastructure to deploy
-        required: true
-        type: string
+        description: Environment to deploy Workload Identity Pool and Provider in
+        type: environment
 
 jobs:
-  tf_apply:
-    name: Deploy resources using Terraform
+  wif_apply:
+    name: Deploy Workload Identity Pool and Provider
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     defaults:
       run:
-        working-directory: ${{ inputs.infrastructure_path }}
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+        working-directory: terraform/infrastructure/workload-identity
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -34,12 +26,10 @@ jobs:
         with:
           terraform_version: '1.3.3'
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
+      - name: Authenticating with GCP
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/${{ vars.PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ vars.WIF_POOL }}/providers/${{ vars.WIF_PROVIDER }}'
-          service_account: ${{ vars.SERVICE_ACCOUNT }}
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
 
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v1'
@@ -59,3 +49,4 @@ jobs:
 
       - name: Deploying resources
         run: terraform apply -auto-approve
+
