@@ -48,11 +48,13 @@ variable "database_availability" {
 variable "database_user" {
   type        = string
   description = "Cloud SQL Database User"
+  sensitive   = true
 }
 
 variable "database_password" {
   type        = string
   description = "Cloud SQL Database Password"
+  sensitive   = true
 }
 
 

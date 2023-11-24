@@ -17,11 +17,6 @@ variable "cluster_name" {
   description = "Kubernetes Cluster Name"
 }
 
-variable "database_instance_name" {
-  type        = string
-  description = "Cloud SQL Instance Name"
-}
-
 variable "backend_iam_name" {
   description = "VueVideo Backend Service Account Name"
   type        = string
@@ -30,4 +25,26 @@ variable "backend_iam_name" {
 variable "backend_version" {
   description = "Backend Image Version"
   type        = string
+}
+
+variable "database_instance_name" {
+  type        = string
+  description = "Cloud SQL Instance Name"
+}
+
+variable "database_name" {
+  type        = string
+  description = "Cloud SQL Database Name"
+}
+
+variable "database_user" {
+  type        = string
+  description = "Cloud SQL Database User"
+  sensitive   = true
+}
+
+variable "database_password" {
+  type        = string
+  description = "Cloud SQL Database Password"
+  sensitive   = true
 }

@@ -62,6 +62,16 @@ resource "kubernetes_deployment" "backend_deployment" {
             container_port = 8080
           }
 
+          env {
+            name  = "DATABASE_URL"
+            value = "postgresql://${var.database_user}:${var.database_password}@localhost:5432/${var.database_name}"
+          }
+
+          env {
+            name  = "PORT"
+            value = "8080"
+          }
+
           resources {
             requests = {
               "memory" = "1Gi"
