@@ -19,7 +19,24 @@ module "gke_cluster" {
   services_ipv4_cidr_block      = var.services_ipv4_cidr_block
 }
 
-module "gke_nodepool" {
+module "service_account" {
+  source       = "../../../modules/service-accounts"
+  project_id   = var.project_id
+  account_id   = "vuevideo-default"
+  display_name = "VueVideo Default Node Pool Service Account"
+  roles        = var.pool_roles
+}
+
+resource "google_service_account_iam_binding" "cicd-account-iam" {
+  service_account_id = module.service_account.service_account_id
+  role               = "roles/iam.serviceAccountUser"
+
+  members = [
+    "serviceAccount:${var.ci_cd_email}",
+  ]
+}
+
+module "k8s-pods-pool" {
   source                   = "../../../modules/k8s/node-pool"
   cluster_name             = module.gke_cluster.cluster_name
   pool_name                = var.pool_name
@@ -28,4 +45,10 @@ module "gke_nodepool" {
   pool_count               = var.pool_count
   pool_machine_preemptible = var.pool_machine_preemptible
   pool_machine_type        = var.pool_machine_type
+
+  pool_service_account = module.service_account.service_account_email
+
+  taints = []
+
+  depends_on = [google_service_account_iam_binding.cicd-account-iam]
 }

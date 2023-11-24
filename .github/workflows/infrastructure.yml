@@ -42,15 +42,25 @@ jobs:
       environment: ${{ needs.prerequisites.outputs.environment }}
       infrastructure_path: terraform/infrastructure/k8s/network
 
-  k8s-cluster-and-node-pool:
-    name: Kubernetes Cluster and Node Pool Creation
+  k8s-cluster:
+    name: Kubernetes Cluster Creation
     needs: [prerequisites, k8s-network]
     if: |
-      contains(fromJSON(needs.prerequisites.outputs.jobs), 'k8s-cluster-and-node-pool') && !(cancelled() || failure())
+      contains(fromJSON(needs.prerequisites.outputs.jobs), 'k8s-cluster') && !(cancelled() || failure())
     uses: ./.github/workflows/tf.reusable.yml
     with:
       environment: ${{ needs.prerequisites.outputs.environment }}
       infrastructure_path: terraform/infrastructure/k8s/cluster
+
+  k8s-node-pool:
+    name: Kubernetes Node Pool Creation
+    needs: [prerequisites, k8s-cluster]
+    if: |
+      contains(fromJSON(needs.prerequisites.outputs.jobs), 'k8s-node-pool') && !(cancelled() || failure())
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ needs.prerequisites.outputs.environment }}
+      infrastructure_path: terraform/infrastructure/k8s/nodes
 
   sql:
     name: Cloud SQL Server Creation

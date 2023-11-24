@@ -1,6 +1,6 @@
 output "service_account_id" {
   description = "ID for the Service Account"
-  value       = google_service_account.service_account.account_id
+  value       = google_service_account.service_account.id
 }
 
 output "service_account_email" {

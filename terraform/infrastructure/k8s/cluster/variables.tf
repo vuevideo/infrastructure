@@ -35,11 +35,6 @@ variable "cluster_name" {
   type        = string
 }
 
-variable "pool_name" {
-  description = "K8s Cluster Node Pool Name"
-  type        = string
-}
-
 variable "control_plane_ipv4_cidr_block" {
   description = "Control Plane CIDR Range"
   type        = string
@@ -55,7 +50,24 @@ variable "services_ipv4_cidr_block" {
   type        = string
 }
 
-# K8s Node Pool Configuration
+# Default Node Pool Configurations
+
+variable "pool_roles" {
+  description = "Pool Service Account Roles"
+  type        = list(string)
+  default     = ["roles/logging.configWriter"]
+}
+
+variable "ci_cd_email" {
+  description = "CI/CD Service Account Email"
+  type        = string
+}
+
+variable "pool_name" {
+  description = "K8s Cluster Node Pool Name"
+  type        = string
+}
+
 variable "pool_count" {
   description = "Number of VMs in Node Pool"
   type        = number
