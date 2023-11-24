@@ -51,7 +51,7 @@ resource "google_firebaserules_ruleset" "storage" {
   }
 
   depends_on = [
-    google_firebase_storage_bucket.bucket
+    google_firebase_storage_bucket.default
   ]
 }
 
