@@ -10,6 +10,15 @@ module "backend_service_account" {
   roles        = var.backend_pool_roles
 }
 
+resource "google_service_account_iam_binding" "backend-cicd-account-iam" {
+  service_account_id = module.backend_service_account.service_account_email
+  role               = "roles/iam.serviceAccountUser"
+
+  members = [
+    "serviceAccount:${var.ci_cd_email}",
+  ]
+}
+
 module "backend_node_pool" {
   source                   = "../../../modules/k8s/node-pool"
   cluster_name             = data.google_container_cluster.k8s.name
@@ -27,6 +36,8 @@ module "backend_node_pool" {
     value  = "backend"
     effect = "NO_SCHEDULE"
   }]
+
+  depends_on = [google_service_account_iam_binding.backend-cicd-account-iam]
 }
 
 module "frontend_service_account" {
@@ -37,6 +48,15 @@ module "frontend_service_account" {
   roles        = var.frontend_pool_roles
 
   depends_on = [module.backend_node_pool]
+}
+
+resource "google_service_account_iam_binding" "frontend-cicd-account-iam" {
+  service_account_id = module.frontend_service_account.service_account_email
+  role               = "roles/iam.serviceAccountUser"
+
+  members = [
+    "serviceAccount:${var.ci_cd_email}",
+  ]
 }
 
 module "frontend_node_pool" {
@@ -56,4 +76,6 @@ module "frontend_node_pool" {
     value  = "frontend"
     effect = "NO_SCHEDULE"
   }]
+
+  depends_on = [google_service_account_iam_binding.frontend-cicd-account-iam]
 }

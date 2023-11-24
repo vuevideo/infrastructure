@@ -14,6 +14,11 @@ variable "zone" {
   type        = string
 }
 
+variable "ci_cd_email" {
+  description = "CI/CD Service Account Email"
+  type        = string
+}
+
 # K8s Cluster Configuration
 variable "k8s_node_locations" {
   description = "K8s Nodes Location"

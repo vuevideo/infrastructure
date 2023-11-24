@@ -58,6 +58,11 @@ variable "pool_roles" {
   default     = ["roles/logging.configWriter"]
 }
 
+variable "ci_cd_email" {
+  description = "CI/CD Service Account Email"
+  type        = string
+}
+
 variable "pool_name" {
   description = "K8s Cluster Node Pool Name"
   type        = string

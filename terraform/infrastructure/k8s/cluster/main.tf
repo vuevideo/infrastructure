@@ -27,6 +27,15 @@ module "service_account" {
   roles        = var.pool_roles
 }
 
+resource "google_service_account_iam_binding" "cicd-account-iam" {
+  service_account_id = module.service_account.service_account_email
+  role               = "roles/iam.serviceAccountUser"
+
+  members = [
+    "serviceAccount:${var.ci_cd_email}",
+  ]
+}
+
 module "k8s-pods-pool" {
   source                   = "../../../modules/k8s/node-pool"
   cluster_name             = module.gke_cluster.cluster_name
@@ -40,4 +49,6 @@ module "k8s-pods-pool" {
   pool_service_account = module.service_account.service_account_email
 
   taints = []
+
+  depends_on = [google_service_account_iam_binding.cicd-account-iam]
 }
