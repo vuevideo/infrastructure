@@ -91,7 +91,7 @@ resource "kubernetes_deployment" "frontend_deployment" {
 
           env {
             name  = "NUXT_PUBLIC_STORAGE_BUCKET"
-            value = "${var.firebase_bucket_name}.appspot.com"
+            value = lookup(data.google_firebase_web_app_config.basic, "storage_bucket", "")
           }
 
           env {
@@ -159,3 +159,4 @@ resource "kubernetes_service" "front-service" {
   wait_for_load_balancer = true
   depends_on             = [kubernetes_deployment.frontend_deployment]
 }
+
