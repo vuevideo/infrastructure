@@ -24,3 +24,9 @@ k8s-node-pool:
 sql:
   - terraform/infrastructure/sql/**
   - terraform/modules/sql/**
+
+vuevideo-backend:
+  - k8s/server/**
+
+vuevideo-frontend:
+  - k8s/client/**

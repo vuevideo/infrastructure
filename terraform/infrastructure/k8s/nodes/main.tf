@@ -5,7 +5,7 @@ data "google_container_cluster" "k8s" {
 module "backend_service_account" {
   source       = "../../../modules/service-accounts"
   project_id   = var.project_id
-  account_id   = "vuevideo-backend"
+  account_id   = var.backend_iam_name
   display_name = "VueVideo Backend Node Pool Service Account"
   roles        = var.backend_pool_roles
 }
@@ -37,13 +37,17 @@ module "backend_node_pool" {
     effect = "NO_SCHEDULE"
   }]
 
+  k8s_labels = {
+    "vuevideo/artifact-type" = "backend"
+  }
+
   depends_on = [google_service_account_iam_binding.backend-cicd-account-iam]
 }
 
 module "frontend_service_account" {
   source       = "../../../modules/service-accounts"
   project_id   = var.project_id
-  account_id   = "vuevideo-frontend"
+  account_id   = var.frontend_iam_name
   display_name = "VueVideo Frontend Node Pool Service Account"
   roles        = var.frontend_pool_roles
 
@@ -76,6 +80,10 @@ module "frontend_node_pool" {
     value  = "frontend"
     effect = "NO_SCHEDULE"
   }]
+
+  k8s_labels = {
+    "vuevideo/artifact-type" = "frontend"
+  }
 
   depends_on = [google_service_account_iam_binding.frontend-cicd-account-iam]
 }

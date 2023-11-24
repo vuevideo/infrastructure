@@ -1,4 +1,3 @@
-# GCP Provider
 variable "project_id" {
   description = "GCP Project ID"
   type        = string
@@ -14,15 +13,18 @@ variable "zone" {
   type        = string
 }
 
-# Cloud SQL Configuration
-variable "database_network_name" {
-  description = "Database Network Name"
+variable "cluster_name" {
+  description = "Kubernetes Cluster Name"
+}
+
+variable "backend_iam_name" {
+  description = "VueVideo Backend Service Account Name"
   type        = string
 }
 
-variable "database_name" {
+variable "backend_version" {
+  description = "Backend Image Version"
   type        = string
-  description = "Cloud SQL Database Name"
 }
 
 variable "database_instance_name" {
@@ -30,19 +32,9 @@ variable "database_instance_name" {
   description = "Cloud SQL Instance Name"
 }
 
-variable "database_version" {
+variable "database_name" {
   type        = string
-  description = "Cloud SQL Version"
-}
-
-variable "database_tier" {
-  type        = string
-  description = "Cloud SQL Machine Tier"
-}
-
-variable "database_availability" {
-  type        = string
-  description = "Cloud SQL Availability"
+  description = "Cloud SQL Database Name"
 }
 
 variable "database_user" {
@@ -56,5 +48,3 @@ variable "database_password" {
   description = "Cloud SQL Database Password"
   sensitive   = true
 }
-
-
