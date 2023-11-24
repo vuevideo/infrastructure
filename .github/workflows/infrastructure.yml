@@ -92,4 +92,4 @@ jobs:
     with:
       environment: ${{ needs.prerequisites.outputs.environment }}
       infrastructure_path: k8s/client
-      backend-version: ${{ vars.SERVER_VERSION }}
+      frontend-version: ${{ vars.CLIENT_VERSION }}

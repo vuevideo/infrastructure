@@ -26,15 +26,9 @@ resource "google_firebase_project" "firebase_project" {
 }
 
 # Buckets for storing profile pictures in.
-resource "random_string" "random" {
-  length  = 5
-  special = false
-  upper   = false
-}
-
 resource "google_storage_bucket" "profile-pictures" {
   provider                    = google-beta
-  name                        = "vuevideo-profile-pictures-${random_string.random.result}"
+  name                        = "vuevideo-dev-profile-pictures"
   location                    = "asia-south1"
   uniform_bucket_level_access = true
 }

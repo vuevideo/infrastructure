@@ -40,7 +40,6 @@ variable "backend_iam_name" {
 variable "backend_pool_roles" {
   description = "Backend Pool Service Account Roles"
   type        = list(string)
-  default     = ["roles/logging.configWriter"]
 }
 
 variable "backend_pool_name" {
@@ -72,7 +71,6 @@ variable "frontend_iam_name" {
 variable "frontend_pool_roles" {
   description = "Frontend Pool Service Account Roles"
   type        = list(string)
-  default     = ["roles/logging.configWriter"]
 }
 
 variable "frontend_pool_name" {
