@@ -11,6 +11,6 @@ terraform {
     }
   }
   backend "gcs" {
-    prefix = "k8s/cluster"
+    prefix = "k8s/nodes"
   }
 }
