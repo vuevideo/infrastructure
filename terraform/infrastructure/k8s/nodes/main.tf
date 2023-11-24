@@ -35,6 +35,8 @@ module "frontend_service_account" {
   account_id   = "vuevideo-frontend"
   display_name = "VueVideo Frontend Node Pool Service Account"
   roles        = var.frontend_pool_roles
+
+  depends_on = [module.backend_node_pool]
 }
 
 module "frontend_node_pool" {
