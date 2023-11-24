@@ -49,5 +49,7 @@ resource "google_container_node_pool" "nodes" {
       google-compute-enable-virtio-rng = "true"
       disable-legacy-endpoints         = "true"
     }
+
+    labels = var.k8s_labels
   }
 }

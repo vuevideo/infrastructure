@@ -64,4 +64,10 @@ variable "autoscaling_config" {
   }
 }
 
+variable "k8s_labels" {
+  description = "Kubernetes Labels"
+  type        = map(string)
+  default     = {}
+}
+
 

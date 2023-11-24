@@ -32,6 +32,11 @@ variable "cluster_name" {
 
 # Backend Pool Configuration
 
+variable "backend_iam_name" {
+  description = "VueVideo Backend Service Account Name"
+  type        = string
+}
+
 variable "backend_pool_roles" {
   description = "Backend Pool Service Account Roles"
   type        = list(string)
@@ -59,6 +64,11 @@ variable "backend_pool_machine_type" {
 }
 
 # Frontend Pool Configuration
+variable "frontend_iam_name" {
+  description = "VueVideo Frontend Service Account Name"
+  type        = string
+}
+
 variable "frontend_pool_roles" {
   description = "Frontend Pool Service Account Roles"
   type        = list(string)
