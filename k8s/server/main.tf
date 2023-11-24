@@ -120,3 +120,32 @@ resource "kubernetes_deployment" "backend_deployment" {
     }
   }
 }
+
+resource "kubernetes_service" "backend-service" {
+  metadata {
+    name      = "backend-service"
+    namespace = "backend"
+    labels = {
+      app       = "vuevideo"
+      component = "backend"
+    }
+  }
+
+  spec {
+    type = "ClusterIP"
+
+    selector = {
+      app       = "vuevideo"
+      component = "backend"
+    }
+
+    port {
+      protocol    = "TCP"
+      port        = 80
+      target_port = 3000
+    }
+  }
+
+  wait_for_load_balancer = true
+  depends_on             = [kubernetes_deployment.backend_deployment]
+}
