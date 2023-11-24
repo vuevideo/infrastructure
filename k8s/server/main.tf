@@ -12,14 +12,16 @@ module "backend-workload-identity" {
   source              = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
   use_existing_gcp_sa = true
   name                = var.backend_iam_name
-  namespace           = kubernetes_namespace.backend_namespace.metadata
+  namespace           = "backend"
   project_id          = var.project_id
+
+  depends_on = [kubernetes_namespace.backend_namespace]
 }
 
 resource "kubernetes_deployment" "backend_deployment" {
   metadata {
     name      = "server-deployment"
-    namespace = kubernetes_namespace.backend_namespace.metadata
+    namespace = "backend"
     labels = {
       app       = "vuevideo"
       component = "server"
