@@ -10,9 +10,12 @@ k8s-network:
   - terraform/modules/nat/**
   - terraform/modules/subnet/**
 
-k8s-cluster-and-node-pool:
+k8s-cluster:
   - terraform/infrastructure/k8s/cluster/**
   - terraform/modules/k8s/cluster/**
+
+k8s-node-pool:
+  - terraform/infrastructure/k8s/nodes/**
   - terraform/modules/k8s/node-pool/**
 
 sql:
