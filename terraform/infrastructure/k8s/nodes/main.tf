@@ -25,7 +25,7 @@ module "backend_node_pool" {
   taints = [{
     key    = "artifact-type"
     value  = "backend"
-    effect = "NoSchedule"
+    effect = "NO_SCHEDULE"
   }]
 }
 
@@ -54,6 +54,6 @@ module "frontend_node_pool" {
   taints = [{
     key    = "artifact-type"
     value  = "frontend"
-    effect = "NoSchedule"
+    effect = "NO_SCHEDULE"
   }]
 }

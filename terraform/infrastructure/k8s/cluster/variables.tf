@@ -49,3 +49,31 @@ variable "services_ipv4_cidr_block" {
   description = "Services CIDR Range"
   type        = string
 }
+
+# Default Node Pool Configurations
+
+variable "pool_roles" {
+  description = "Pool Service Account Roles"
+  type        = list(string)
+  default     = ["roles/logging.configWriter"]
+}
+
+variable "pool_name" {
+  description = "K8s Cluster Node Pool Name"
+  type        = string
+}
+
+variable "pool_count" {
+  description = "Number of VMs in Node Pool"
+  type        = number
+}
+
+variable "pool_machine_preemptible" {
+  description = "Preemptible VM Nodes"
+  type        = bool
+}
+
+variable "pool_machine_type" {
+  description = "Node Pool Machine Type"
+  type        = string
+}
