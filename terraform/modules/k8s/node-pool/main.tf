@@ -9,11 +9,9 @@ resource "google_container_node_pool" "nodes" {
   node_locations = var.node_locations
 
   autoscaling {
-    location_policy      = "BALANCED"
-    max_node_count       = var.autoscaling_config.max_count
-    min_node_count       = var.autoscaling_config.min_count
-    total_max_node_count = var.autoscaling_config.total_max_count
-    total_min_node_count = var.autoscaling_config.total_min_count
+    location_policy = "ANY"
+    max_node_count  = var.autoscaling_config.max_count
+    min_node_count  = var.autoscaling_config.min_count
   }
 
   node_config {
