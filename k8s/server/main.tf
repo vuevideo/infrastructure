@@ -59,7 +59,7 @@ resource "kubernetes_deployment" "backend_deployment" {
           image = "docker.io/vuevideo/server:${var.backend_version}"
 
           port {
-            container_port = 8080
+            container_port = 3000
           }
 
           env {
