@@ -38,7 +38,7 @@ module "backend_node_pool" {
   }]
 
   k8s_labels = {
-    "vuevideo/artifact-type" : "backend"
+    "vuevideo/artifact-type" = "backend"
   }
 
   depends_on = [google_service_account_iam_binding.backend-cicd-account-iam]
@@ -82,7 +82,7 @@ module "frontend_node_pool" {
   }]
 
   k8s_labels = {
-    "vuevideo/artifact-type" : "frontend"
+    "vuevideo/artifact-type" = "frontend"
   }
 
   depends_on = [google_service_account_iam_binding.frontend-cicd-account-iam]

@@ -98,6 +98,17 @@ resource "kubernetes_deployment" "backend_deployment" {
             }
           }
         }
+
+        toleration {
+          key    = "artifact-type"
+          value  = "backend"
+          effect = "NoSchedule"
+        }
+
+        node_selector = {
+          "iam.gke.io/gke-metadata-server-enabled" = "true"
+          "vuevideo/artifact-type"                 = "backend"
+        }
       }
     }
   }
