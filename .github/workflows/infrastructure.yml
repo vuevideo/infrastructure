@@ -82,3 +82,14 @@ jobs:
       environment: ${{ needs.prerequisites.outputs.environment }}
       infrastructure_path: k8s/server
       backend-version: ${{ vars.SERVER_VERSION }}
+
+  vuevideo-frontend:
+    name: VueVideo Frontend Deployment
+    needs: [prerequisites, vuevideo-backend]
+    if: |
+      contains(fromJSON(needs.prerequisites.outputs.jobs), 'vuevideo-frontend') && !(cancelled() || failure())
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ needs.prerequisites.outputs.environment }}
+      infrastructure_path: k8s/client
+      backend-version: ${{ vars.SERVER_VERSION }}

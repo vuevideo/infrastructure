@@ -27,3 +27,6 @@ sql:
 
 vuevideo-backend:
   - k8s/server/**
+
+vuevideo-frontend:
+  - k8s/client/**
