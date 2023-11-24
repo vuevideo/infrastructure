@@ -20,11 +20,11 @@ module "backend-workload-identity" {
 
 resource "kubernetes_deployment" "backend_deployment" {
   metadata {
-    name      = "backend-deployment"
+    name      = "server-deployment"
     namespace = "backend"
     labels = {
       app       = "vuevideo"
-      component = "backend"
+      component = "server"
     }
   }
 
@@ -33,7 +33,7 @@ resource "kubernetes_deployment" "backend_deployment" {
     selector {
       match_labels = {
         app       = "vuevideo"
-        component = "backend"
+        component = "server"
       }
     }
 
@@ -48,14 +48,14 @@ resource "kubernetes_deployment" "backend_deployment" {
       metadata {
         labels = {
           app       = "vuevideo"
-          component = "backend"
+          component = "server"
         }
       }
 
       spec {
         service_account_name = module.backend-workload-identity.k8s_service_account_name
         container {
-          name  = "backend"
+          name  = "server"
           image = "docker.io/vuevideo/server:${var.backend_version}"
 
           port {
@@ -113,41 +113,10 @@ resource "kubernetes_deployment" "backend_deployment" {
         }
 
         node_selector = {
-          "iam.gke.io/gke-metadata-backend-enabled" = "true"
-          "vuevideo/artifact-type"                  = "backend"
+          "iam.gke.io/gke-metadata-server-enabled" = "true"
+          "vuevideo/artifact-type"                 = "backend"
         }
       }
     }
   }
-}
-
-
-resource "kubernetes_service" "backend-service" {
-  metadata {
-    name      = "backend-service"
-    namespace = "backend"
-    labels = {
-      app       = "vuevideo"
-      component = "backend"
-    }
-  }
-
-  spec {
-    type = "ClusterIP"
-
-    selector = {
-      app       = "vuevideo"
-      component = "backend"
-    }
-
-    port {
-      protocol    = "TCP"
-      port        = 80
-      target_port = 3000
-    }
-  }
-
-  wait_for_load_balancer = true
-
-  depends_on = [kubernetes_deployment.backend_deployment]
 }
