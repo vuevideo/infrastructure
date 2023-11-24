@@ -71,3 +71,14 @@ jobs:
     with:
       environment: ${{ needs.prerequisites.outputs.environment }}
       infrastructure_path: terraform/infrastructure/sql
+
+  vuevideo-backend:
+    name: VueVideo Backend Deployment
+    needs: [prerequisites, k8s-cluster, k8s-node-pool, sql]
+    if: |
+      contains(fromJSON(needs.prerequisites.outputs.jobs), 'vuevideo-backend') && !(cancelled() || failure())
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ needs.prerequisites.outputs.environment }}
+      infrastructure_path: k8s/server
+      backend-version: ${{ vars.SERVER_VERSION }}

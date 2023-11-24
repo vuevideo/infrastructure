@@ -14,6 +14,11 @@ on:
         required: true
         type: string
 
+      backend-version:
+        description: VueVideo Backend Version
+        required: false
+        type: string
+
 jobs:
   tf_apply:
     name: Deploy resources using Terraform
@@ -25,6 +30,8 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
+    env:
+      TF_VAR_BACKEND_VERSION: ${{ inputs.backend-version }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
