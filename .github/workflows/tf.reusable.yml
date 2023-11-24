@@ -31,7 +31,7 @@ jobs:
       contents: 'read'
       id-token: 'write'
     env:
-      TF_VAR_BACKEND_VERSION: ${{ inputs.backend-version }}
+      TF_VAR_backend_version: ${{ inputs.backend-version }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
