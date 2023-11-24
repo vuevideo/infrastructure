@@ -28,7 +28,7 @@ module "service_account" {
 }
 
 resource "google_service_account_iam_binding" "cicd-account-iam" {
-  service_account_id = module.service_account.service_account_email
+  service_account_id = module.service_account.service_account_id
   role               = "roles/iam.serviceAccountUser"
 
   members = [

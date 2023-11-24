@@ -11,7 +11,7 @@ module "backend_service_account" {
 }
 
 resource "google_service_account_iam_binding" "backend-cicd-account-iam" {
-  service_account_id = module.backend_service_account.service_account_email
+  service_account_id = module.backend_service_account.service_account_id
   role               = "roles/iam.serviceAccountUser"
 
   members = [
@@ -51,7 +51,7 @@ module "frontend_service_account" {
 }
 
 resource "google_service_account_iam_binding" "frontend-cicd-account-iam" {
-  service_account_id = module.frontend_service_account.service_account_email
+  service_account_id = module.frontend_service_account.service_account_id
   role               = "roles/iam.serviceAccountUser"
 
   members = [
