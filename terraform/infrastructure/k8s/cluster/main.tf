@@ -18,14 +18,3 @@ module "gke_cluster" {
   pods_ipv4_cidr_block          = var.pods_ipv4_cidr_block
   services_ipv4_cidr_block      = var.services_ipv4_cidr_block
 }
-
-module "gke_nodepool" {
-  source                   = "../../../modules/k8s/node-pool"
-  cluster_name             = module.gke_cluster.cluster_name
-  pool_name                = var.pool_name
-  pool_location            = var.region
-  node_locations           = var.k8s_node_locations
-  pool_count               = var.pool_count
-  pool_machine_preemptible = var.pool_machine_preemptible
-  pool_machine_type        = var.pool_machine_type
-}

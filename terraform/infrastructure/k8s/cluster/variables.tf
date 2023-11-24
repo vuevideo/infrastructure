@@ -35,11 +35,6 @@ variable "cluster_name" {
   type        = string
 }
 
-variable "pool_name" {
-  description = "K8s Cluster Node Pool Name"
-  type        = string
-}
-
 variable "control_plane_ipv4_cidr_block" {
   description = "Control Plane CIDR Range"
   type        = string
@@ -52,21 +47,5 @@ variable "pods_ipv4_cidr_block" {
 
 variable "services_ipv4_cidr_block" {
   description = "Services CIDR Range"
-  type        = string
-}
-
-# K8s Node Pool Configuration
-variable "pool_count" {
-  description = "Number of VMs in Node Pool"
-  type        = number
-}
-
-variable "pool_machine_preemptible" {
-  description = "Preemptible VM Nodes"
-  type        = bool
-}
-
-variable "pool_machine_type" {
-  description = "Node Pool Machine Type"
   type        = string
 }

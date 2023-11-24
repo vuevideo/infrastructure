@@ -18,6 +18,14 @@ resource "google_container_cluster" "cluster" {
     }
   }
 
+  logging_config {
+    enable_components = ["SYSTEM_COMPONENTS", "APISERVER", "CONTROLLER_MANAGER", "SCHEDULER", "WORKLOADS"]
+  }
+
+  monitoring_config {
+    enable_components = ["SYSTEM_COMPONENTS", "APISERVER", "SCHEDULER", "CONTROLLER_MANAGER", "STORAGE", "HPA", "POD", "DAEMONSET", "DEPLOYMENT", "STATEFULSET"]
+  }
+
   private_cluster_config {
     # enable_private_endpoint = true
     enable_private_nodes   = true

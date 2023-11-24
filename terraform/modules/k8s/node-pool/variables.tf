@@ -34,4 +34,34 @@ variable "pool_machine_type" {
   type        = string
 }
 
+variable "pool_service_account" {
+  description = "Node Pool Service Account"
+  type        = string
+}
+
+variable "taints" {
+  description = "K8s Taints to apply to node pool"
+  type = list(object({
+    key    = string
+    value  = string
+    effect = string
+  }))
+}
+
+variable "autoscaling_config" {
+  description = "Autoscaling configuration"
+  type = object({
+    total_min_count = number
+    total_max_count = number
+    max_count       = number
+    min_count       = number
+  })
+  default = {
+    total_max_count = 2
+    max_count       = 2
+    min_count       = 1
+    total_min_count = 1
+  }
+}
+
 
