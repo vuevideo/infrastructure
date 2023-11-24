@@ -56,7 +56,7 @@ resource "kubernetes_deployment" "backend_deployment" {
         service_account_name = module.backend-workload-identity.k8s_service_account_name
         container {
           name  = "backend"
-          image = "docker.io/vuevideo/backend:${var.backend_version}"
+          image = "docker.io/vuevideo/server:${var.backend_version}"
 
           port {
             container_port = 8080
@@ -146,4 +146,8 @@ resource "kubernetes_service" "backend-service" {
       target_port = 3000
     }
   }
+
+  wait_for_load_balancer = true
+
+  depends_on = [kubernetes_deployment.backend_deployment]
 }
