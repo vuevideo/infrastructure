@@ -26,3 +26,8 @@ variable "frontend_version" {
   description = "Frontend Image Version"
   type        = string
 }
+
+variable "firebase_bucket_name" {
+  default = "Firebase Bucket Name"
+  type    = string
+}

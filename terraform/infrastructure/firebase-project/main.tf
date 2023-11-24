@@ -28,7 +28,7 @@ resource "google_firebase_project" "firebase_project" {
 # Buckets for storing profile pictures in.
 resource "google_storage_bucket" "profile-pictures" {
   provider                    = google-beta
-  name                        = "vuevideo-dev-profile-pictures"
+  name                        = var.firebase_bucket_name
   location                    = "asia-south1"
   uniform_bucket_level_access = true
 }
@@ -37,6 +37,22 @@ resource "google_firebase_storage_bucket" "default" {
   provider  = google-beta
   project   = google_firebase_project.firebase_project.project
   bucket_id = google_storage_bucket.profile-pictures.id
+}
+
+# Create a ruleset of Firebase Security Rules from a local file.
+resource "google_firebaserules_ruleset" "storage" {
+  provider = google-beta
+  project  = var.project_id
+  source {
+    files {
+      name    = "storage.rules"
+      content = "service firebase.storage {match /b/${var.firebase_bucket_name}/o {match /{allPaths=**} {allow read, write: if request.auth != null;}}}"
+    }
+  }
+
+  depends_on = [
+    google_firebase_storage_bucket.bucket
+  ]
 }
 
 # Firebase Authentication

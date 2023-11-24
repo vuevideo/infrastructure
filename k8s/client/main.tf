@@ -91,7 +91,7 @@ resource "kubernetes_deployment" "frontend_deployment" {
 
           env {
             name  = "NUXT_PUBLIC_STORAGE_BUCKET"
-            value = lookup(data.google_firebase_web_app_config.basic, "storage_bucket", "")
+            value = "${var.firebase_bucket_name}.appspot.com"
           }
 
           env {
