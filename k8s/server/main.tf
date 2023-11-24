@@ -20,11 +20,11 @@ module "backend-workload-identity" {
 
 resource "kubernetes_deployment" "backend_deployment" {
   metadata {
-    name      = "server-deployment"
+    name      = "backend-deployment"
     namespace = "backend"
     labels = {
       app       = "vuevideo"
-      component = "server"
+      component = "backend"
     }
   }
 
@@ -33,7 +33,7 @@ resource "kubernetes_deployment" "backend_deployment" {
     selector {
       match_labels = {
         app       = "vuevideo"
-        component = "server"
+        component = "backend"
       }
     }
 
@@ -48,14 +48,14 @@ resource "kubernetes_deployment" "backend_deployment" {
       metadata {
         labels = {
           app       = "vuevideo"
-          component = "server"
+          component = "backend"
         }
       }
 
       spec {
         service_account_name = module.backend-workload-identity.k8s_service_account_name
         container {
-          name  = "server"
+          name  = "backend"
           image = "docker.io/vuevideo/server:${var.backend_version}"
 
           port {
