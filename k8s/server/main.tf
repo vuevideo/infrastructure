@@ -20,11 +20,11 @@ module "backend-workload-identity" {
 
 resource "kubernetes_deployment" "backend_deployment" {
   metadata {
-    name      = "server-deployment"
+    name      = "backend-deployment"
     namespace = "backend"
     labels = {
       app       = "vuevideo"
-      component = "server"
+      component = "backend"
     }
   }
 
@@ -33,7 +33,7 @@ resource "kubernetes_deployment" "backend_deployment" {
     selector {
       match_labels = {
         app       = "vuevideo"
-        component = "server"
+        component = "backend"
       }
     }
 
@@ -48,15 +48,15 @@ resource "kubernetes_deployment" "backend_deployment" {
       metadata {
         labels = {
           app       = "vuevideo"
-          component = "server"
+          component = "backend"
         }
       }
 
       spec {
         service_account_name = module.backend-workload-identity.k8s_service_account_name
         container {
-          name  = "server"
-          image = "docker.io/vuevideo/server:${var.backend_version}"
+          name  = "backend"
+          image = "docker.io/vuevideo/backend:${var.backend_version}"
 
           port {
             container_port = 8080
@@ -65,11 +65,6 @@ resource "kubernetes_deployment" "backend_deployment" {
           env {
             name  = "DATABASE_URL"
             value = "postgresql://${var.database_user}:${var.database_password}@localhost:5432/${var.database_name}"
-          }
-
-          env {
-            name  = "PORT"
-            value = "8080"
           }
 
           resources {
@@ -118,10 +113,37 @@ resource "kubernetes_deployment" "backend_deployment" {
         }
 
         node_selector = {
-          "iam.gke.io/gke-metadata-server-enabled" = "true"
-          "vuevideo/artifact-type"                 = "backend"
+          "iam.gke.io/gke-metadata-backend-enabled" = "true"
+          "vuevideo/artifact-type"                  = "backend"
         }
       }
+    }
+  }
+}
+
+
+resource "kubernetes_service" "backend-service" {
+  metadata {
+    name      = "backend-service"
+    namespace = "backend"
+    labels = {
+      app       = "vuevideo"
+      component = "backend"
+    }
+  }
+
+  spec {
+    type = "ClusterIP"
+
+    selector = {
+      app       = "vuevideo"
+      component = "backend"
+    }
+
+    port {
+      protocol    = "TCP"
+      port        = 80
+      target_port = 3000
     }
   }
 }
