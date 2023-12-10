@@ -30,3 +30,6 @@ vuevideo-backend:
 
 vuevideo-frontend:
   - k8s/client/**
+
+network-policy:
+  - k8s/network-policy/**
