@@ -93,3 +93,14 @@ jobs:
       environment: ${{ needs.prerequisites.outputs.environment }}
       infrastructure_path: k8s/client
       frontend-version: ${{ vars.CLIENT_VERSION }}
+
+  network-policy:
+    name: Kubernetes Network Policy
+    needs: [prerequisites, vuevideo-backend, vuevideo-frontend]
+    if: |
+      contains(fromJSON(needs.prerequisites.outputs.jobs), 'network-policy') && !(cancelled() || failure())
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ needs.prerequisites.outputs.environment }}
+      infrastructure_path: k8s/network-policy
+      frontend-version: ${{ vars.CLIENT_VERSION }}
