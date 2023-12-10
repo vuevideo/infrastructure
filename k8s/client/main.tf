@@ -114,6 +114,39 @@ resource "kubernetes_deployment" "frontend_deployment" {
               "cpu"    = "0.5"
             }
           }
+
+          liveness_probe {
+            http_get {
+              path = "/api/v1/hello"
+              port = "3001"
+            }
+
+            success_threshold = 1
+            failure_threshold = 3
+            initial_delay_seconds = 60
+          }
+
+          readiness_probe {
+            http_get {
+              path = "/api/v1/hello"
+              port = "3001"
+            }
+
+            success_threshold = 3
+            failure_threshold = 3
+            initial_delay_seconds = 60
+          }
+
+          startup_probe {
+            http_get {
+              path = "/api/v1/hello"
+              port = "3001"
+            }
+
+            success_threshold = 1
+            failure_threshold = 3
+            initial_delay_seconds = 60
+          }
         }
 
         toleration {
