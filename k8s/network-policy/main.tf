@@ -1,7 +1,7 @@
 resource "kubernetes_network_policy" "allow_backend_ingress" {
   metadata {
     name      = "allow-backend-ingress"
-    namespace = "vuevideo"
+    namespace = "backend"
   }
 
   spec {
@@ -40,7 +40,7 @@ resource "kubernetes_network_policy" "allow_backend_ingress" {
 resource "kubernetes_network_policy" "allow_backend_egress" {
   metadata {
     name      = "allow-backend-egress"
-    namespace = "vuevideo"
+    namespace = "backend"
   }
 
   spec {
@@ -65,7 +65,7 @@ resource "kubernetes_network_policy" "allow_backend_egress" {
 resource "kubernetes_network_policy" "allow_frontend_ingress" {
   metadata {
     name      = "allow-frontend-ingress"
-    namespace = "vuevideo"
+    namespace = "frontend"
   }
 
   spec {
