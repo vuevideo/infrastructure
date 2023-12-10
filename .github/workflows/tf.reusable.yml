@@ -24,6 +24,12 @@ on:
         required: false
         type: string
 
+      deploy-flag:
+        description: Either deploy or destroy resource
+        default: true
+        required: false
+        type: boolean
+
 jobs:
   tf_apply:
     name: Deploy resources using Terraform
@@ -66,9 +72,10 @@ jobs:
         id: init
         run: terraform init --backend-config="bucket=${{ vars.TERRAFORM_BACKEND }}"
 
-      - name: Running Terraform Plan
-        id: plan
-        run: terraform plan
-
       - name: Deploying resources
+        if: ${{ inputs.deploy-flag == true }}
         run: terraform apply -auto-approve
+
+      - name: Destroying resources
+        if: ${{ inputs.deploy-flag == false }}
+        run: terraform destroy -auto-approve
