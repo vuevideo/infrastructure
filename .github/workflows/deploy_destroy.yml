@@ -1,0 +1,50 @@
+name: On Demand Deployment/Teardown of Infrastructure using Terraform
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      resource:
+        description: Resource to deploy/destroy
+        type: choice
+        default: apis
+        options:
+          - apis
+          - firebase-project
+          - k8s-network
+          - k8s-cluster
+          - k8s-node-pool
+          - sql
+          - vuevideo-backend
+          - vuevideo-frontend
+          - network-policy
+
+      environment:
+        description: Environment to deploy/destroy resources in
+        type: environment
+        required: true
+        default: dev
+
+      action:
+        description: Deploy/destroy resource
+        type: choice
+        default: deploy
+        options:
+          - deploy
+          - destroy
+
+jobs:
+  terraform_apply:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: '1.3.3'
