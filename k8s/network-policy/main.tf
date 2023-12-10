@@ -58,20 +58,6 @@ resource "kubernetes_network_policy" "allow_backend_egress" {
         port     = "3001"
         protocol = "TCP"
       }
-
-      to {
-        namespace_selector {
-          match_labels = {
-            name = "frontend"
-          }
-        }
-
-        pod_selector {
-          match_labels = {
-            component = "frontend"
-          }
-        }
-      }
     }
   }
 }

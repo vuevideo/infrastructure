@@ -12,3 +12,7 @@ variable "zone" {
   description = "GCP Zone"
   type        = string
 }
+
+variable "cluster_name" {
+  description = "Kubernetes Cluster Name"
+}
