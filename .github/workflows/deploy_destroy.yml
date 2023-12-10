@@ -1,7 +1,6 @@
 name: On Demand Deployment/Teardown of Infrastructure using Terraform
 
 on:
-  push:
   workflow_dispatch:
     inputs:
       resource:
@@ -34,17 +33,85 @@ on:
           - destroy
 
 jobs:
-  terraform_apply:
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
-    defaults:
-      run:
-        working-directory: terraform
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+  apis:
+    name: APIs to enable
+    if: ${{ inputs.resource == 'apis' }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: terraform/infrastructure/apis
+      deploy-flag: ${{ inputs.action == 'deploy' }}
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: '1.3.3'
+  firebase-project:
+    name: Create Firebase Project
+    if: ${{ inputs.resource == 'firebase-project' }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: terraform/infrastructure/firebase-project
+      deploy-flag: ${{ inputs.action == 'deploy' }}
+
+  k8s-network:
+    name: Kubernetes Network Creation
+    if: ${{ inputs.resource == 'k8s-network' }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: terraform/infrastructure/k8s/network
+      deploy-flag: ${{ inputs.action == 'deploy' }}
+
+  k8s-cluster:
+    name: Kubernetes Cluster Creation
+    if: ${{ inputs.resource == 'k8s-cluster' }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: terraform/infrastructure/k8s/cluster
+      deploy-flag: ${{ inputs.action == 'deploy' }}
+
+  k8s-node-pool:
+    name: Kubernetes Node Pool Creation
+    if: ${{ inputs.resource == 'k8s-node-pool' }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: terraform/infrastructure/k8s/nodes
+      deploy-flag: ${{ inputs.action == 'deploy' }}
+
+  sql:
+    name: Cloud SQL Server Creation
+    if: ${{ inputs.resource == 'sql' }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: terraform/infrastructure/sql
+      deploy-flag: ${{ inputs.action == 'deploy' }}
+
+  vuevideo-backend:
+    name: VueVideo Backend Deployment
+    if: ${{ inputs.resource == 'vuevideo-backend' }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: k8s/server
+      backend-version: ${{ vars.SERVER_VERSION }}
+      deploy-flag: ${{ inputs.action == 'deploy' }}
+
+  vuevideo-frontend:
+    name: VueVideo Frontend Deployment
+    if: ${{ inputs.resource == 'vuevideo-frontend' }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: k8s/client
+      frontend-version: ${{ vars.CLIENT_VERSION }}
+      deploy-flag: ${{ inputs.action == 'deploy' }}
+
+  network-policy:
+    name: Kubernetes Network Policy
+    if: ${{ inputs.resource == 'network-policy' }}
+    uses: ./.github/workflows/tf.reusable.yml
+    with:
+      environment: ${{ inputs.environment }}
+      infrastructure_path: k8s/network-policy
+      deploy-flag: ${{ inputs.action == 'deploy' }}

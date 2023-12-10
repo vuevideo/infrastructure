@@ -103,4 +103,3 @@ jobs:
     with:
       environment: ${{ needs.prerequisites.outputs.environment }}
       infrastructure_path: k8s/network-policy
-      frontend-version: ${{ vars.CLIENT_VERSION }}
