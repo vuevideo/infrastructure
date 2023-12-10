@@ -81,7 +81,6 @@ resource "kubernetes_deployment" "backend_deployment" {
           liveness_probe {
             http_get {
               path = "/api/v1/hello"
-              host = "127.0.0.1"
               port = "3000"
             }
 
@@ -93,7 +92,6 @@ resource "kubernetes_deployment" "backend_deployment" {
           readiness_probe {
             http_get {
               path = "/api/v1/hello"
-              host = "127.0.0.1"
               port = "3000"
             }
 
@@ -105,7 +103,6 @@ resource "kubernetes_deployment" "backend_deployment" {
           startup_probe {
             http_get {
               path = "/api/v1/hello"
-              host = "127.0.0.1"
               port = "3000"
             }
 
