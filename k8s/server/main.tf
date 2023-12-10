@@ -77,6 +77,42 @@ resource "kubernetes_deployment" "backend_deployment" {
               "cpu"    = "1"
             }
           }
+
+          liveness_probe {
+            http_get {
+              path = "/api/v1/hello"
+              host = "127.0.0.1"
+              port = "3000"
+            }
+
+            success_threshold = 3
+            failure_threshold = 3
+            initial_delay_seconds = 60
+          }
+
+          readiness_probe {
+            http_get {
+              path = "/api/v1/hello"
+              host = "127.0.0.1"
+              port = "3000"
+            }
+
+            success_threshold = 3
+            failure_threshold = 3
+            initial_delay_seconds = 60
+          }
+
+          startup_probe {
+            http_get {
+              path = "/api/v1/hello"
+              host = "127.0.0.1"
+              port = "3000"
+            }
+
+            success_threshold = 3
+            failure_threshold = 3
+            initial_delay_seconds = 60
+          }
         }
 
         container {
