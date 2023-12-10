@@ -85,7 +85,7 @@ resource "kubernetes_deployment" "backend_deployment" {
               port = "3000"
             }
 
-            success_threshold = 3
+            success_threshold = 1
             failure_threshold = 3
             initial_delay_seconds = 60
           }
@@ -109,7 +109,7 @@ resource "kubernetes_deployment" "backend_deployment" {
               port = "3000"
             }
 
-            success_threshold = 3
+            success_threshold = 1
             failure_threshold = 3
             initial_delay_seconds = 60
           }
