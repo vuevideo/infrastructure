@@ -76,6 +76,6 @@ jobs:
         if: ${{ inputs.deploy-flag == true }}
         run: terraform apply -auto-approve
 
-      - name: Deploying resources
+      - name: Destroying resources
         if: ${{ inputs.deploy-flag == false }}
         run: terraform destroy -auto-approve
