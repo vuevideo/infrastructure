@@ -27,7 +27,7 @@ on:
       deploy-flag:
         description: Either deploy or destroy resource
         default: true
-        required: true
+        required: false
         type: boolean
 
 jobs:
